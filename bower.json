@@ -3,8 +3,10 @@
   "description": "",
   "main": "gulpfile.js",
   "authors": [
+    "Wei He <whe@weispot.com>"
   ],
   "license": "ISC",
+  "homepage": "https://github.com/ddhhz/isogram",
   "private": true,
   "ignore": [
     "**/.*",

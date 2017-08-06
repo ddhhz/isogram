@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    title ISOGram - Customize Google Analytics Code
+    meta(charset="UTF-8")
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    link(rel='stylesheet', href='main.css')
+
+  body
+    .wrapper
+
+      //- left
+      .input
+        .headings
+          h1.isogrammer ISOGRAM
+          h3.tagline Customize your Google Analytics Code
+        input#isogram-input(placeholder="isogram", maxlength="7", autofocus)
+        p#warning
+
+        p.credits by&nbsp;
+          a(href="https://whe.me") Wei&nbsp;|&nbsp;
+          a(href="https://github.com/ddhhz/isogram") source&nbsp;|&nbsp;
+          a(href="https://twitter.com/jaxgeller") Thanks @jaxgeller&nbsp;|&nbsp;
+          a.what-is-this(href="https://en.wikipedia.org/wiki/Isogram") What&apos;s an isogram?
+
+      //- right
+      .script-output
+        #output-top
+        pre#output-bottom
+
+      p.credits-mobile by&nbsp;
+        a(href="https://whe.me") Wei&nbsp;|&nbsp;
+        a(href="https://github.com/ddhhz/isogram") source&nbsp;|&nbsp;
+        a(href="https://twitter.com/jaxgeller") Thanks @jaxgeller
+        br
+        a.what-is-this(href="https://en.wikipedia.org/wiki/Isogram") What&apos;s an isogram?
+
+    script(src="main.js")
+
+    script.
+      !
+      function(W,e,i,H,E){W.GoogleAnalyticsObject=i;W[i]||(W[i]=function(){
+      (W[i].q=W[i].q||[]).push(arguments)});W[i].l=+new Date;H=e.createElement('script');
+      E=e.scripts[0];H.src='//www.google-analytics.com/analytics.js';
+      E.parentNode.insertBefore(H,E)}(window,document,'ga');
+      ga('create', 'UA-18952818-16', 'auto');
+      ga('send', 'pageview');

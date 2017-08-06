@@ -1,21 +1,21 @@
 {
-  "name": "isogram.co",
+  "name": "isogram",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Wei He <github@weispot.com>",
   "license": "ISC",
   "devDependencies": {
     "gulp": "^3.8.10",
     "gulp-concat": "^2.4.3",
     "gulp-connect": "^5.0.0",
-    "gulp-imagemin": "^3.3.0",
-    "gulp-jade": "*",
+    "gulp-gh-pages": "^0.5.4",
     "gulp-load-plugins": "^1.5.0",
     "gulp-main-bower-files": "^1.6.2",
+    "gulp-pug": "^3.3.0",
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "^3.0.0"
   },

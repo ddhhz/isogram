@@ -22,11 +22,10 @@
 }
 
 .isogrammer {
-  @include hide-text;
   @include size(174px 34px);
-  background: url("images/logo.svg") center center no-repeat;
   float: left;
   margin: 0 25px 0 0;
+  font-weight: 400;
 
   @include mobile {
     float: none;
@@ -51,7 +50,7 @@
   }
 }
 
-.isogram-input {
+#isogram-input {
   background-color: transparent;
   border: none;
   outline: none;
@@ -61,7 +60,7 @@
   font-size: 50px;
   width: 350px;
   @include placeholder {
-    color: white;
+    color: rgba(255,255,255,.5);
   }
 
   @include mobile {
@@ -74,7 +73,7 @@
   }
 }
 
-.warning {
+#warning {
   margin: 20px auto 180px auto;
   height: 20px;
   @include animation(flash 4s ease-in-out infinite);
@@ -121,14 +120,14 @@
   }
 }
 
-.output-top {
+#output-top {
   border-radius: 3px 3px 0 0;
   background-color: #8FA3AD;
   height: 50px;
   background: url("images/logo-ga.svg") #8FA3AD 20px center no-repeat;
 }
 
-.output-bottom {
+#output-bottom {
   border-radius: 0 0 3px 3px;
   background-color: #F7F6F4;
   height: 100%;

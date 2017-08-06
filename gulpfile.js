@@ -38,26 +38,28 @@ gulp.task('scripts', ['bower'], function() {
     .pipe(p.connect.reload());
 });
 
-gulp.task('jade', function() {
-  return gulp.src('src/views/index.jade')
-    .pipe(p.jade())
+gulp.task('pug', function() {
+  return gulp.src('src/views/index.pug')
+    .pipe(p.pug({pretty: false}))
     .on('error', handle)
     .pipe(gulp.dest('dist'))
     .pipe(p.connect.reload());
 });
 
-gulp.task('images', function() {
-  return gulp.src('src/images/**/*')
-    .pipe(p.imagemin())
-    .on('error', handle)
-    .pipe(gulp.dest('dist/images'))
+gulp.task('assets', function() {
+  return gulp.src('src/assets/**/*')
+    .pipe(gulp.dest('dist/'))
 });
 
 gulp.task('watch', function() {
-  gulp.watch('src/views/**/*.jade', ['jade']);
+  gulp.watch('src/views/**/*.pug', ['pug']);
   gulp.watch('src/style/*.scss', ['sass']);
   gulp.watch('src/scripts/*.js', ['scripts']);
 });
 
+gulp.task('deploy', () => {
+  return gulp.src('./dist/**/*')
+    .pipe(plugins.ghPages());
+});
 
-gulp.task('default', ['jade', 'sass', 'scripts', 'images', 'server', 'watch']);
+gulp.task('default', ['assets', 'pug', 'sass', 'scripts', 'server', 'watch']);

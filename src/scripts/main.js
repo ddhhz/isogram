@@ -5,9 +5,9 @@ var ansi_up = new AnsiUp;
 function getTemplate(input) {
 
   try {
-    return ansi_up.ansi_to_html(window.isogram(input.join(''), {color: true, scriptTag: true}));
+    return ansi_up.ansi_to_html(window.isogram(input.join(''), {color: true, scriptTag: true, id: 'XXXXX-XX'}));
   } catch (e) {
-    return ansi_up.ansi_to_html(window.isogram('isogram', {scriptTag: true}));
+    return ansi_up.ansi_to_html(window.isogram('isogram', {scriptTag: true, id: 'XXXXX-XX'}));
   }
 }
 
@@ -37,47 +37,85 @@ var isAlpha = function(val) {
   return /^[A-Za-z]+$/.test(val)
 }
 
-$(document).on('ready', function() {
-  var $input = $('.isogram-input');
-  var $output = $('.output-bottom');
-  var $warning = $('.warning');
-  var $body = $('body');
+ready(function(){
+  var $input = document.getElementById('isogram-input');
+  var $output = document.getElementById('output-bottom');
+  var $warning = document.getElementById('warning');
+  var $body = document.body;
 
-  $input.on('input', function(e) {
-    var currChars = $input.val().split('');
+  addEventListener($input, 'input', function(e) {
+    var currChars = $input.value.split('');
     var currIndex = currChars.length -1;
 
-    console.log("checking for " + $input.val())
+    console.log("Checking for " + $input.value)
 
-    if ( $input.val() && !isAlpha($input.val()) ) {
-      $input.val($input.val().substring(0, $input.val().length-1));
-      $warning.text('Can only have alpha characters.');
-      $body.removeClass('success');
+    if ( $input.value && !isAlpha($input.value) ) {
+      $input.value = $input.value.substring(0, $input.value.length-1);
+      $warning.innerHTML = 'Can only have alpha characters.';
+      updateHash('');
+      $body.classList.remove('success');
     }
 
-    else if (!isIsogram($input.val())) {
-      $input.val($input.val().substring(0, $input.val().length-1));
-      $warning.text('Cannot repeat characters, not an isogram.');
-      $body.removeClass('success');
+    else if (!isIsogram($input.value)) {
+      $input.value = $input.value.substring(0, $input.value.length-1);
+      $warning.innerHTML = 'Cannot repeat characters, not an isogram.';
+      updateHash('');
+      $body.classList.remove('success');
     }
 
-    else if ( $input.val().length < 3 ) {
-      $warning.text('Please enter 3 - 7 characters.');
-      $output.html(getTemplate());
-      $body.removeClass('success');
+    else if ( $input.value.length < 3 ) {
+      $warning.innerHTML = 'Please enter 3 - 7 characters.';
+      $output.innerHTML = getTemplate();
+      updateHash('');
+      $body.classList.remove('success');
     }
 
     else {
-      $warning.text('');
-      $output.html(getTemplate(currChars));
-      $body.addClass('success');
+      $warning.innerHTML = '';
+      $output.innerHTML = getTemplate(currChars);
+      updateHash($input.value);
+      $body.classList.add('success');
     }
   });
 
-  var search = window.location.search.replace(/^\?/, '');
+  var search = window.location.hash.replace(/^#/, '');
   if (search && isAlpha(search) && isIsogram(search)) {
-    $input.val(search).trigger('input');
+    $input.value = search;
+    triggerEvent($input, 'input');
   } else {
-    $output.html(getTemplate('isogram'.split('')));
+    $output.innerHTML = getTemplate();
   }
 });
+
+function updateHash(hash) {
+  history.replaceState(null, document.title, document.location.pathname + (hash ? '#' + hash : ''));
+}
+
+function ready(fn) {
+  if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+function addEventListener(el, eventName, handler) {
+  if (el.addEventListener) {
+    el.addEventListener(eventName, handler);
+  } else {
+    el.attachEvent('on' + eventName, function() {
+      handler.call(el);
+    });
+  }
+}
+
+function triggerEvent(el, eventName, options) {
+  var event;
+  if (window.CustomEvent) {
+    event = new CustomEvent(eventName, options);
+  } else {
+    event = document.createEvent('CustomEvent');
+    event.initCustomEvent(eventName, true, true, options);
+  }
+  el.dispatchEvent(event);
+}
