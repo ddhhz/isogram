@@ -457,48 +457,6 @@ window.arrayDuplicated = function arrayDuplicated(arr) {
 };
 
 /*!
- * assert-unique | MIT (c) Shinnosuke Watanabe
- * https://github.com/shinnn/assert-unique
-*/
-
-window.assertUnique = function assertUnique() {
-  'use strict';
-
-  if (arguments.length === 0) {
-    return;
-  }
-
-  var duplicates = window.arrayDuplicated([].slice.call(arguments));
-
-  if (duplicates.length === 0) {
-    return;
-  }
-
-  var len = duplicates.length;
-  while (len--) {
-    if (typeof duplicates[len] === 'function') {
-      var fnName = '';
-      if (duplicates[len].name) {
-        fnName = ': ' + duplicates[len].name;
-      }
-
-      duplicates[len] = '[Function' + fnName + ']';
-    } else {
-      duplicates[len] = JSON.stringify(duplicates[len]);
-    }
-  }
-
-  var aux;
-  if (duplicates.length === 1) {
-    aux = 'is';
-  } else {
-    aux = 'are';
-  }
-
-  throw new Error(window.arrayToSentence(duplicates) + ' ' + aux + ' duplicated.');
-};
-
-/*!
  * array-to-sentence | MIT (c) Shinnosuke Watanabe
  * https://github.com/shinnn/array-to-sentence
 */
@@ -542,6 +500,48 @@ window.arrayToSentence = function arrayToSentence(arr, options) {
   }
 
   return arr.slice(0, -1).join(options.separator) + options.lastSeparator + arr[arr.length - 1];
+};
+
+/*!
+ * assert-unique | MIT (c) Shinnosuke Watanabe
+ * https://github.com/shinnn/assert-unique
+*/
+
+window.assertUnique = function assertUnique() {
+  'use strict';
+
+  if (arguments.length === 0) {
+    return;
+  }
+
+  var duplicates = window.arrayDuplicated([].slice.call(arguments));
+
+  if (duplicates.length === 0) {
+    return;
+  }
+
+  var len = duplicates.length;
+  while (len--) {
+    if (typeof duplicates[len] === 'function') {
+      var fnName = '';
+      if (duplicates[len].name) {
+        fnName = ': ' + duplicates[len].name;
+      }
+
+      duplicates[len] = '[Function' + fnName + ']';
+    } else {
+      duplicates[len] = JSON.stringify(duplicates[len]);
+    }
+  }
+
+  var aux;
+  if (duplicates.length === 1) {
+    aux = 'is';
+  } else {
+    aux = 'are';
+  }
+
+  throw new Error(window.arrayToSentence(duplicates) + ' ' + aux + ' duplicated.');
 };
 
 /*!
@@ -589,72 +589,6 @@ window.gaLoaderSnippets = {
   with5params: parts[0] + ',D,E' + parts[1] + ';D' + parts[2] + '"script");\nE=B.scripts[0];D.src=' + parts[3] + ';\nE' + parts[4] + 'D,E)}' + parts[6] + ');',
   with6params: parts[0] + ',D,E,F' + parts[1] + ';E' + parts[2] + 'D);\nF' + parts[5] + 'E.src=' + parts[3] + ';\nF' + parts[4] + 'E,F)}' + parts[6] + ',"script");',
   with7params: parts[0] + ',D,E,F,G' + parts[1] + ';F' + parts[2] + 'D);\nG' + parts[5] + 'F.src=E;G' + parts[4] + 'F,G)}\n' + parts[6] + ',"script",' + parts[3] + ');'
-};
-
-}();
-
-/*!
- * ga-tracker-snippet | MIT (c) Shinnosuke Watanabe
- * https://github.com/shinnn/ga-tracker-snippet
-*/
-!function() {
-'use strict';
-
-window.gaTrackerSnippet = function gaTrackerSnippet(options) {
-  if (typeof options === 'string') {
-    options = {id: arguments[0], domain: arguments[1]};
-  } else {
-    options = options || {};
-  }
-
-  var templateData = {};
-
-  var defultValues = {
-    id: 'XXXXX-X',
-    domain: 'auto',
-    globalName: 'ga'
-  };
-
-  Object.keys(defultValues).forEach(function(key) {
-    var prop = options[key];
-    if (prop) {
-      if (typeof prop !== 'string') {
-        throw new TypeError(prop + ' is not a string. ' + key + ' property must be a string.');
-      }
-      templateData[key] = prop;
-    } else {
-      templateData[key] = defultValues[key];
-    }
-  });
-
-  if (!window.isVarName(templateData.globalName)) {
-    throw new Error(templateData.globalName + ' cannot be used as a global variable name.');
-  }
-
-  if (templateData.id.indexOf('UA-') === 0) {
-    templateData.id = templateData.id.substring(3);
-  }
-
-  var space;
-  if (options.minify) {
-    space = '';
-  } else {
-    space = ' ';
-  }
-
-  var code = templateData.globalName +
-             '(\'create\',' + space +
-             '\'UA-' + templateData.id + '\',' + space +
-             '\'' + templateData.domain + '\');' +
-             (options.minify ? '' : '\n') +
-             templateData.globalName +
-             '(\'send\',' + space + '\'pageview\');';
-
-  if (options.singleQuotes === false) {
-    code = code.replace(/'/g, '"');
-  }
-
-  return code;
 };
 
 }();
@@ -749,3 +683,69 @@ window.isogram = function isogram(characters, options) {
 
   return gaLoader;
 };
+
+/*!
+ * ga-tracker-snippet | MIT (c) Shinnosuke Watanabe
+ * https://github.com/shinnn/ga-tracker-snippet
+*/
+!function() {
+'use strict';
+
+window.gaTrackerSnippet = function gaTrackerSnippet(options) {
+  if (typeof options === 'string') {
+    options = {id: arguments[0], domain: arguments[1]};
+  } else {
+    options = options || {};
+  }
+
+  var templateData = {};
+
+  var defultValues = {
+    id: 'XXXXX-X',
+    domain: 'auto',
+    globalName: 'ga'
+  };
+
+  Object.keys(defultValues).forEach(function(key) {
+    var prop = options[key];
+    if (prop) {
+      if (typeof prop !== 'string') {
+        throw new TypeError(prop + ' is not a string. ' + key + ' property must be a string.');
+      }
+      templateData[key] = prop;
+    } else {
+      templateData[key] = defultValues[key];
+    }
+  });
+
+  if (!window.isVarName(templateData.globalName)) {
+    throw new Error(templateData.globalName + ' cannot be used as a global variable name.');
+  }
+
+  if (templateData.id.indexOf('UA-') === 0) {
+    templateData.id = templateData.id.substring(3);
+  }
+
+  var space;
+  if (options.minify) {
+    space = '';
+  } else {
+    space = ' ';
+  }
+
+  var code = templateData.globalName +
+             '(\'create\',' + space +
+             '\'UA-' + templateData.id + '\',' + space +
+             '\'' + templateData.domain + '\');' +
+             (options.minify ? '' : '\n') +
+             templateData.globalName +
+             '(\'send\',' + space + '\'pageview\');';
+
+  if (options.singleQuotes === false) {
+    code = code.replace(/'/g, '"');
+  }
+
+  return code;
+};
+
+}();
