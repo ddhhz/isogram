@@ -1,13 +1,21 @@
 {
   "name": "isogram",
   "version": "1.0.0",
-  "description": "",
+  "description": "Customize your google analytics code.",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ddhhz/isogram.git"
+  },
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Wei He <github@weispot.com>",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ddhhz/isogram/issues"
+  },
+  "homepage": "https://isogram.whe.technology",
   "devDependencies": {
     "gulp": "^3.8.10",
     "gulp-concat": "^2.4.3",

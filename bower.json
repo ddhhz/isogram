@@ -1,12 +1,12 @@
 {
-  "name": "isogram.co",
-  "description": "",
+  "name": "isogram",
+  "description": "Customize your google analytics code.",
   "main": "gulpfile.js",
   "authors": [
     "Wei He <whe@weispot.com>"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/ddhhz/isogram",
+  "homepage": "https://isogram.whe.technology",
   "private": true,
   "ignore": [
     "**/.*",
