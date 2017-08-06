@@ -37,13 +37,13 @@ var isAlpha = function(val) {
   return /^[A-Za-z]+$/.test(val)
 }
 
-ready(function(){
+_ready(function(){
   var $input = document.getElementById('isogram-input');
   var $output = document.getElementById('output-bottom');
   var $warning = document.getElementById('warning');
   var $body = document.body;
 
-  addEventListener($input, 'input', function(e) {
+  _addEventListener($input, 'input', function(e) {
     var currChars = $input.value.split('');
     var currIndex = currChars.length -1;
 
@@ -79,9 +79,9 @@ ready(function(){
   });
 
   var search = window.location.hash.replace(/^#/, '');
-  if (search && isAlpha(search) && isIsogram(search)) {
+  if (search && isAlpha(search) && isIsogram(search) && search.length > 2) {
     $input.value = search;
-    triggerEvent($input, 'input');
+    _triggerEvent($input, 'input');
   } else {
     $output.innerHTML = getTemplate();
   }
@@ -91,7 +91,7 @@ function updateHash(hash) {
   history.replaceState(null, document.title, document.location.pathname + (hash ? '#' + hash : ''));
 }
 
-function ready(fn) {
+function _ready(fn) {
   if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
     fn();
   } else {
@@ -99,7 +99,7 @@ function ready(fn) {
   }
 }
 
-function addEventListener(el, eventName, handler) {
+function _addEventListener(el, eventName, handler) {
   if (el.addEventListener) {
     el.addEventListener(eventName, handler);
   } else {
@@ -109,7 +109,7 @@ function addEventListener(el, eventName, handler) {
   }
 }
 
-function triggerEvent(el, eventName, options) {
+function _triggerEvent(el, eventName, options) {
   var event;
   if (window.CustomEvent) {
     event = new CustomEvent(eventName, options);
