@@ -23,10 +23,15 @@ gulp.task('sass', function() {
     .pipe(p.connect.reload());
 });
 
-gulp.task('scripts', function() {
-  return gulp.src('src/scripts/**/*.js')
-    .pipe(p.uglify())
-    .on('error', handle)
+gulp.task('bower', function() {
+    return gulp.src('./bower.json')
+        .pipe(p.mainBowerFiles())
+        .pipe(gulp.dest('./src/libs'));
+});
+gulp.task('scripts', ['bower'], function() {
+  return gulp.src(['src/scripts/**/*.js', 'src/libs/**/*.js'])
+    // .pipe(p.uglify())
+    // .on('error', handle)
     .pipe(p.concat('main.js'))
     .on('error', handle)
     .pipe(gulp.dest('dist'))

@@ -1,6 +1,6 @@
 .input {
   float: left;
-  width: 450px;
+  width: 410px;
   background: url("images/arrow-right.svg") right 197px no-repeat;
 
   @include mobile {
@@ -52,14 +52,14 @@
 }
 
 .isogram-input {
-  background-color: $red;
+  background-color: transparent;
   border: none;
   outline: none;
   border-bottom: 2px solid white;
   color: white;
   padding: 15px 5px;
   font-size: 50px;
-  width: 410px;
+  width: 350px;
   @include placeholder {
     color: white;
   }
@@ -110,12 +110,13 @@
 .script-output {
   float: right;
   margin-top: 100px;
-  max-width: 570px;
-  @include size(570px auto);
+  max-width: 590px;
+  @include size(590px auto);
 
   @include mobile {
     float: none;
     margin: 225px auto 0 auto;
+    max-width: 440px;
     width: 80%;
   }
 }
@@ -144,14 +145,6 @@
     font-size: 10px;
     letter-spacing: -1.25px;
   }
-}
-
-.active {
-  @include animation(fadeIn 0.75s ease-in-out);
-}
-
-.is-valid {
-  color: #27FF4D;
 }
 
 .what-is-this {

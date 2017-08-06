@@ -1,9 +1,14 @@
 'use strict';
 
-function getTemplate(isogram) {
-  var template = _.template('&lt;script&gt;<br/>&nbsp;&nbsp;(function(<span class="char-0 char-highlight"><%=isogram[0]%></span>,<span class="char-1 char-highlight"><%=isogram[1]%></span>,<span class="char-2 char-highlight"><%=isogram[2]%></span>,<span class="char-3 char-highlight"><%=isogram[3]%></span>,<span class="char-4 char-highlight"><%=isogram[4]%></span>,<span class="char-5 char-highlight"><%=isogram[5]%></span>,<span class="char-6 char-highlight"><%=isogram[6]%></span>){<span class="char-0"><%=isogram[0]%></span>[&#039;GoogleAnalyticsObject&#039;]=<span class="char-4"><%=isogram[4]%></span>;<span class="char-0"><%=isogram[0]%></span>[<span class="char-4"><%=isogram[4]%></span>]=<span class="char-0"><%=isogram[0]%></span>[<span class="char-4"><%=isogram[4]%></span>]||function(){<br/>&nbsp;&nbsp;(<span class="char-0"><%=isogram[0]%></span>[<span class="char-4"><%=isogram[4]%></span>].q=<span class="char-0"><%=isogram[0]%></span>[<span class="char-4"><%=isogram[4]%></span>].q||[]).push(arguments)},<span class="char-0"><%=isogram[0]%></span>[<span class="char-4"><%=isogram[4]%></span>].l=1*new Date();<span class="char-5"><%=isogram[5]%></span>=<span class="char-1"><%=isogram[1]%></span>.createElement(<span class="char-2"><%=isogram[2]%></span>),<br/>&nbsp;&nbsp;<span class="char-6"><%=isogram[6]%></span>=<span class="char-1"><%=isogram[1]%></span>.getElementsByTagName(<span class="char-2"><%=isogram[2]%></span>)[0];<span class="char-5"><%=isogram[5]%></span>.async=1;<span class="char-5"><%=isogram[5]%></span>.src=<span class="char-3"><%=isogram[3]%></span>;<span class="char-6"><%=isogram[6]%></span>.parentNode.insertBefore(<span class="char-5"><%=isogram[5]%></span>,<span class="char-6"><%=isogram[6]%></span>)<br/>&nbsp;&nbsp;})(window,document,&#039;script&#039;,&#039;//www.google-analytics.com/analytics.js&#039;,&#039;ga&#039;);<br/><br/>&nbsp;&nbsp;ga(&#039;create&#039;, &#039;UIDHERE&#039;, &#039;auto&#039;);<br/>&nbsp;&nbsp;ga(&#039;send&#039;, &#039;pageview&#039;);<br/>&lt;/script&gt;');
+var ansi_up = new AnsiUp;
 
-  return template({isogram: isogram});
+function getTemplate(input) {
+
+  try {
+    return ansi_up.ansi_to_html(window.isogram(input.join(''), {color: true, scriptTag: true}));
+  } catch (e) {
+    return ansi_up.ansi_to_html(window.isogram('isogram', {scriptTag: true}));
+  }
 }
 
 // thanks --> http://jsperf.com/isisogram/2
@@ -28,36 +33,51 @@ function isIsogram(word){
   return is;
 }
 
+var isAlpha = function(val) {
+  return /^[A-Za-z]+$/.test(val)
+}
+
 $(document).on('ready', function() {
   var $input = $('.isogram-input');
   var $output = $('.output-bottom');
   var $warning = $('.warning');
-  $output.html(getTemplate(['i','s','o','g','r','a','m']));
+  var $body = $('body');
 
   $input.on('input', function(e) {
     var currChars = $input.val().split('');
     var currIndex = currChars.length -1;
 
-    if ( !/^[a-z]+$/.test($input.val()) ) {
+    console.log("checking for " + $input.val())
+
+    if ( $input.val() && !isAlpha($input.val()) ) {
       $input.val($input.val().substring(0, $input.val().length-1));
       $warning.text('Can only have alpha characters.');
+      $body.removeClass('success');
     }
 
     else if (!isIsogram($input.val())) {
       $input.val($input.val().substring(0, $input.val().length-1));
-      $warning.text('Cannot have repeat characters, not an isogram.');
+      $warning.text('Cannot repeat characters, not an isogram.');
+      $body.removeClass('success');
+    }
+
+    else if ( $input.val().length < 3 ) {
+      $warning.text('Please enter 3 - 7 characters.');
+      $output.html(getTemplate());
+      $body.removeClass('success');
     }
 
     else {
       $warning.text('');
       $output.html(getTemplate(currChars));
-      $('.output-bottom span.char-'+currIndex).addClass('active');
-      if (isIsogram($input.val()) && $input.val().length === 7) {
-        $('.output-bottom span.char-'+currIndex).removeClass('active');
-        $('.char-highlight').each(function(i, item) {
-          setTimeout(function(){$(item).addClass('is-valid');}, 20 * i);
-        });
-      }
+      $body.addClass('success');
     }
   });
+
+  var search = window.location.search.replace(/^\?/, '');
+  if (search && isAlpha(search) && isIsogram(search)) {
+    $input.val(search).trigger('input');
+  } else {
+    $output.html(getTemplate('isogram'.split('')));
+  }
 });

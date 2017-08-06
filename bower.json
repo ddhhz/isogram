@@ -1,0 +1,19 @@
+{
+  "name": "isogram.co",
+  "description": "",
+  "main": "gulpfile.js",
+  "authors": [
+  ],
+  "license": "ISC",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "isogram": "shinnn/isogram#a613036"
+  }
+}

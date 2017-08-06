@@ -1,4 +1,5 @@
 $red: #FF2750;
+$green: #00C13B;
 $mobile: 1080px;
 
 @import "normalize";
@@ -35,6 +36,11 @@ body {
   font-weight: 300;
   line-height: 1.25;
   color: white;
+  transition: background-color 0.2s ease;
+
+  &.success {
+    background-color: $green;
+  }
 }
 
 @import "layout";
