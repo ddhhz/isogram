@@ -33,7 +33,7 @@ function isIsogram(word){
   return is;
 }
 
-var isAlpha = function(val) {
+function isAlpha(val) {
   return /^[A-Za-z]+$/.test(val)
 }
 
