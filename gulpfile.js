@@ -30,8 +30,8 @@ gulp.task('bower', function() {
 });
 gulp.task('scripts', ['bower'], function() {
   return gulp.src(['src/scripts/**/*.js', 'src/libs/**/*.js'])
-    // .pipe(p.uglify())
-    // .on('error', handle)
+    .pipe(p.uglify())
+    .on('error', handle)
     .pipe(p.concat('main.js'))
     .on('error', handle)
     .pipe(gulp.dest('dist'))
