@@ -349,13 +349,13 @@ var isAlpha = function(val) {
   return /^[A-Za-z]+$/.test(val)
 }
 
-ready(function(){
+_ready(function(){
   var $input = document.getElementById('isogram-input');
   var $output = document.getElementById('output-bottom');
   var $warning = document.getElementById('warning');
   var $body = document.body;
 
-  addEventListener($input, 'input', function(e) {
+  _addEventListener($input, 'input', function(e) {
     var currChars = $input.value.split('');
     var currIndex = currChars.length -1;
 
@@ -391,9 +391,9 @@ ready(function(){
   });
 
   var search = window.location.hash.replace(/^#/, '');
-  if (search && isAlpha(search) && isIsogram(search)) {
+  if (search && isAlpha(search) && isIsogram(search) && search.length > 2) {
     $input.value = search;
-    triggerEvent($input, 'input');
+    _triggerEvent($input, 'input');
   } else {
     $output.innerHTML = getTemplate();
   }
@@ -403,7 +403,7 @@ function updateHash(hash) {
   history.replaceState(null, document.title, document.location.pathname + (hash ? '#' + hash : ''));
 }
 
-function ready(fn) {
+function _ready(fn) {
   if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
     fn();
   } else {
@@ -411,7 +411,7 @@ function ready(fn) {
   }
 }
 
-function addEventListener(el, eventName, handler) {
+function _addEventListener(el, eventName, handler) {
   if (el.addEventListener) {
     el.addEventListener(eventName, handler);
   } else {
@@ -421,7 +421,7 @@ function addEventListener(el, eventName, handler) {
   }
 }
 
-function triggerEvent(el, eventName, options) {
+function _triggerEvent(el, eventName, options) {
   var event;
   if (window.CustomEvent) {
     event = new CustomEvent(eventName, options);
@@ -454,6 +454,48 @@ window.arrayDuplicated = function arrayDuplicated(arr) {
   }
 
   return result;
+};
+
+/*!
+ * assert-unique | MIT (c) Shinnosuke Watanabe
+ * https://github.com/shinnn/assert-unique
+*/
+
+window.assertUnique = function assertUnique() {
+  'use strict';
+
+  if (arguments.length === 0) {
+    return;
+  }
+
+  var duplicates = window.arrayDuplicated([].slice.call(arguments));
+
+  if (duplicates.length === 0) {
+    return;
+  }
+
+  var len = duplicates.length;
+  while (len--) {
+    if (typeof duplicates[len] === 'function') {
+      var fnName = '';
+      if (duplicates[len].name) {
+        fnName = ': ' + duplicates[len].name;
+      }
+
+      duplicates[len] = '[Function' + fnName + ']';
+    } else {
+      duplicates[len] = JSON.stringify(duplicates[len]);
+    }
+  }
+
+  var aux;
+  if (duplicates.length === 1) {
+    aux = 'is';
+  } else {
+    aux = 'are';
+  }
+
+  throw new Error(window.arrayToSentence(duplicates) + ' ' + aux + ' duplicated.');
 };
 
 /*!
@@ -500,48 +542,6 @@ window.arrayToSentence = function arrayToSentence(arr, options) {
   }
 
   return arr.slice(0, -1).join(options.separator) + options.lastSeparator + arr[arr.length - 1];
-};
-
-/*!
- * assert-unique | MIT (c) Shinnosuke Watanabe
- * https://github.com/shinnn/assert-unique
-*/
-
-window.assertUnique = function assertUnique() {
-  'use strict';
-
-  if (arguments.length === 0) {
-    return;
-  }
-
-  var duplicates = window.arrayDuplicated([].slice.call(arguments));
-
-  if (duplicates.length === 0) {
-    return;
-  }
-
-  var len = duplicates.length;
-  while (len--) {
-    if (typeof duplicates[len] === 'function') {
-      var fnName = '';
-      if (duplicates[len].name) {
-        fnName = ': ' + duplicates[len].name;
-      }
-
-      duplicates[len] = '[Function' + fnName + ']';
-    } else {
-      duplicates[len] = JSON.stringify(duplicates[len]);
-    }
-  }
-
-  var aux;
-  if (duplicates.length === 1) {
-    aux = 'is';
-  } else {
-    aux = 'are';
-  }
-
-  throw new Error(window.arrayToSentence(duplicates) + ' ' + aux + ' duplicated.');
 };
 
 /*!
