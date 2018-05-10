@@ -1,6 +1,6 @@
 ISOGRAM
 =======
-Customize your google analytics code. _Visit: https://isogram.whe.technology_
+Customize your google analytics code. _Visit: https://isogram.whe.app_
 
 
 ## Example

@@ -57,7 +57,7 @@ gulp.task('watch', function() {
   gulp.watch('src/scripts/*.js', ['scripts']);
 });
 
-gulp.task('deploy', () => {
+gulp.task('deploy', ['assets', 'pug', 'sass', 'scripts'], () => {
   return gulp.src('./dist/**/*')
     .pipe(p.ghPages());
 });
