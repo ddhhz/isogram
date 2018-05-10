@@ -4,7 +4,7 @@
   "description": "Customize your google analytics code.",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ddhhz/isogram.git"
+    "url": "git@github.com:wei/isogram.git"
   },
   "main": "gulpfile.js",
   "scripts": {
@@ -13,7 +13,7 @@
   "author": "Wei He <github@weispot.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ddhhz/isogram/issues"
+    "url": "https://github.com/wei/isogram/issues"
   },
   "homepage": "https://isogram.whe.app",
   "dependencies": {

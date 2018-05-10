@@ -44,7 +44,7 @@ $ gulp
 
 ## Questions?
 
-Please [open an issue](https://github.com/ddhhz/isogram/issues) or [email me](mailto:&#103;&#105;&#116;&#104;&#117;&#098;&#064;&#119;&#101;&#105;&#115;&#112;&#111;&#116;&#046;&#099;&#111;&#109;) with any issues, feedback, or suggestions.
+Please [open an issue](https://github.com/wei/isogram/issues) or [email me](mailto:&#103;&#105;&#116;&#104;&#117;&#098;&#064;&#119;&#101;&#105;&#115;&#112;&#111;&#116;&#046;&#099;&#111;&#109;) with any issues, feedback, or suggestions.
 
 
 ## Author
