@@ -33,8 +33,8 @@ function isIsogram(word){
   return is;
 }
 
-function isAlpha(val) {
-  return /^[A-Za-z]+$/.test(val)
+function isCharacterAllowed(val) {
+  return /^[A-Za-z_$]+$/.test(val)
 }
 
 _ready(function(){
@@ -49,9 +49,9 @@ _ready(function(){
 
     console.log("Checking for " + $input.value)
 
-    if ( $input.value && !isAlpha($input.value) ) {
+    if ( $input.value && !isCharacterAllowed($input.value) ) {
       $input.value = $input.value.substring(0, $input.value.length-1);
-      $warning.innerHTML = 'Can only have alpha characters.';
+      $warning.innerHTML = 'Can only have a-z, A-Z, _ or $.';
       updateHash('');
       $body.classList.remove('success');
     }
@@ -63,23 +63,29 @@ _ready(function(){
       $body.classList.remove('success');
     }
 
-    else if ( $input.value.length < 3 ) {
-      $warning.innerHTML = 'Please enter 3 - 7 characters.';
+    else if ( $input.value.length < 1 || ($input.value.length < 3 && $input.value.match(/[_$]/)) ) {
+      $warning.innerHTML = 'Please enter more than more characters.';
       $output.innerHTML = getTemplate();
       updateHash('');
       $body.classList.remove('success');
     }
 
     else {
+      var value = $input.value;
+      if (value.length === 1) {
+        value += '_$';
+      } else if (value.length === 2) {
+        value += '_';
+      }
       $warning.innerHTML = '';
-      $output.innerHTML = getTemplate(currChars);
-      updateHash($input.value);
+      $output.innerHTML = getTemplate(value.split(''));
+      updateHash(value);
       $body.classList.add('success');
     }
   });
 
   var search = window.location.hash.replace(/^#/, '');
-  if (search && isAlpha(search) && isIsogram(search) && search.length > 2) {
+  if (search && isCharacterAllowed(search) && isIsogram(search) && search.length > 2) {
     $input.value = search;
     _triggerEvent($input, 'input');
   } else {
